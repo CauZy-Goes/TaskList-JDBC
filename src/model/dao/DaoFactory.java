@@ -1,7 +1,7 @@
 package model.dao;
 
 import db.DB;
-import mode.dao.impl.TaskListDaoJDBC;
+import model.dao.impl.TaskListDaoJDBC;
 
 public class DaoFactory {
 	
