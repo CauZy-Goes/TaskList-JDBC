@@ -25,12 +25,11 @@ public class TaskListDaoJDBC implements TaskListDao {
 	public void insert(TaskList taskList) {
 		PreparedStatement st = null;
 		try {
-			st = conn.prepareStatement("INSERT INTO tasklist " + "(Task, Deadline)" + "VALUES " + "(?, ?)",
+			st = conn.prepareStatement("INSERT INTO tasklist " + "(Task) " + "VALUES " + "(?)",
 					Statement.RETURN_GENERATED_KEYS);
 
 			st.setString(1, taskList.getTask());
-			st.setDate(2, new java.sql.Date(taskList.getDeadLine().getTime()));
-
+			
 			int rowsAffected = st.executeUpdate();
 
 			if (rowsAffected > 0) {
@@ -55,11 +54,10 @@ public class TaskListDaoJDBC implements TaskListDao {
 	public void updated(TaskList taskList) {
 		PreparedStatement st = null;
 		try {
-			st = conn.prepareStatement("UPDATE tasklist " + "SET Task = ?, DeadLine = ?" + "WHERE Id = ? ");
+			st = conn.prepareStatement("UPDATE tasklist " + "SET Task = ? " + "WHERE Id = ? ");
 
 			st.setString(1, taskList.getTask());
-			st.setDate(2, new java.sql.Date(taskList.getDeadLine().getTime()));
-			st.setInt(3, taskList.getId());
+			st.setInt(2, taskList.getId());
 
 			st.executeUpdate();
 
@@ -141,7 +139,6 @@ public class TaskListDaoJDBC implements TaskListDao {
 		TaskList taskList = new TaskList();
 		taskList.setId(rs.getInt("ID"));
 		taskList.setTask(rs.getString("Task"));
-		taskList.setDeadLine(rs.getDate("DeadLine"));
 		return taskList;
 	}
 

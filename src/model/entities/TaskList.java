@@ -1,7 +1,6 @@
 package model.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class TaskList implements Serializable{
 	
@@ -10,25 +9,22 @@ public class TaskList implements Serializable{
 	
 	private Integer id;
 	private String task;
-	private Date deadLine;
 	
 	public TaskList() {
 		
 	}
 
-	public TaskList( String task, Date deadLine) {
+	public TaskList( String task) {
 		this.task = task;
-		this.deadLine = deadLine;
 	}
-	public TaskList(Integer id, String task, Date deadLine) {
+	public TaskList(Integer id, String task) {
 		this.task = task;
-		this.deadLine = deadLine;
 		this.id = id;
 	}
 
 	@Override
 	public String toString() {
-		return "TaskList [id=" + id + ", task=" + task + ", deadLine=" + deadLine + "]";
+		return "TaskList [id=" + id + ", task=" + task + "]";
 	}
 
 	@Override
@@ -70,14 +66,6 @@ public class TaskList implements Serializable{
 
 	public void setTask(String task) {
 		this.task = task;
-	}
-
-	public Date getDeadLine() {
-		return deadLine;
-	}
-
-	public void setDeadLine(Date deadLine) {
-		this.deadLine = deadLine;
 	}
 	
 }

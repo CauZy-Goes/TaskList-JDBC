@@ -2,9 +2,7 @@ package application;
 
 
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -31,20 +29,21 @@ public class Program {
             System.out.println("3. Listar Tarefas");
             System.out.println("4. Renomear Tarefa");
             System.out.println("5. Filtrar pelo Id");
-            System.out.println("6. Listar tarefas atrasadas");
-            System.out.println("7. Sair");
+            System.out.println("6. Sair");
             System.out.print("Escolha uma opção: ");
+            
+            System.out.println();
 
             int choice = scan.nextInt();
             scan.nextLine(); 
 
             switch (choice) {
                 case 1:
-                	taskListDao.insert(instanceTaskList());
+                	taskListDao.insert(insertTask());
                 	System.out.println("Tarefa adicionada !");
                     break;
                 case 2:
-                	taskListDao.deleteById(remove());
+                	taskListDao.deleteById(removeTask());
                 	System.out.println("Tarefa removida !");
                     break;
                 case 3:
@@ -54,11 +53,11 @@ public class Program {
                     }
                     break;
                 case 4:
-                    taskListDao.updated(instanceTaskList());
+                    taskListDao.updated(updatedTask());
                     System.out.println("Tarefa modificada !");
                     break;
                 case 5:
-                    taskListDao.findById(remove());
+                    System.out.println(taskListDao.findById(findById()));
                     break;
                 case 6:
                 	running = false;
@@ -69,37 +68,61 @@ public class Program {
         }
     }
 
-	private static Integer remove() {
+	private static Integer findById() {
 		try {
-		System.out.println("Digite o Id da tarefa que deseja remover: ");
+			System.out.print("Digite o Id da tarefa que deseja visualizar: ");
+	    	int id = scan.nextInt();
+	    	scan.nextLine();
+	    	return id;
+			}
+			catch(InputMismatchException e) { 
+				System.out.println("Input error");
+				e.printStackTrace();
+			}
+		return null;
+	}
+
+	private static TaskList updatedTask() {
+		try {
+			System.out.print("Digite o Id da tarefa que deseja modificar: ");
+	    	int id = scan.nextInt();
+	    	scan.nextLine();
+	    	System.out.print("Digite o novo nome da tarefa:");
+	    	String nome = scan.nextLine();
+	    	return new TaskList(id, nome);
+			}
+			catch(InputMismatchException e) { 
+				System.out.println("Input error");
+				e.printStackTrace();
+			}
+		return null;
+	}
+
+	private static TaskList insertTask() {
+		try {
+	    	System.out.print("Digite o nome da tarefa:");
+	    	String nome = scan.nextLine();
+	    	return new TaskList(nome);
+			}
+			catch(InputMismatchException e) { 
+				System.out.println("Input error");
+				e.printStackTrace();
+			}
+		return null;
+	}
+	
+
+	private static Integer removeTask() {
+		try {
+		System.out.print("Digite o Id da tarefa que deseja remover: ");
     	return scan.nextInt();
 		}
-		catch(InputMismatchException e) { //erro de colocar string em int
+		catch(InputMismatchException e) { 
 			System.out.println("Input error");
 			e.printStackTrace();
 		}
 		return null;
 	}
 
-	private static TaskList instanceTaskList() {
-		try {
-			System.out.print("Id da tarefa: ");
-	    	int id = scan.nextInt();
-	    	scan.nextLine();
-			System.out.print("Nome da tarefa: ");
-	    	String nome = scan.nextLine();
-	    	System.out.print("Prazo da tarefa (DD/MM/YYYY):");
-	    	Date data;
-			data = sdf.parse(scan.next());
-			return new TaskList(id,nome,data);
-		} catch (ParseException e) {
-			System.out.println("Data invalida");
-			e.printStackTrace();
-		}
-		catch(InputMismatchException e) { //erro de colocar string em int
-			System.out.println("Input error");
-			e.printStackTrace();
-		}
-		return null;
-	}
+	
 }
